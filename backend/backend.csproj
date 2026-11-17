@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MyApp.Api</RootNamespace>
+    <AssemblyName>MyApp.Api</AssemblyName>
+    <UserSecretsId>7d2c1f0e-5b1a-4c58-9a57-3f4a6b9d2e11</UserSecretsId>
+  </PropertyGroup>
+
+  <!-- Versions float within major 10 so `dotnet restore` picks the latest stable 10.x.
+       Commit the generated packages.lock.json / pin exact versions after the first successful restore. -->
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.*" />
+  </ItemGroup>
+
+</Project>

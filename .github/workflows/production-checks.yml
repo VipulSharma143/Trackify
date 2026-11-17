@@ -1,0 +1,74 @@
+# Production PR validation.
+# Trigger: pull requests targeting main (opened, updated, reopened).
+# Purpose: only master -> main promotion PRs are allowed, and they must pass the complete quality gate
+# plus release readiness checks. Merging is further restricted to maintainers by the main ruleset.
+name: Production checks
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: production-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify-source:
+    name: Source branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR must come from master of this repository into main
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          THIS_REPO: ${{ github.repository }}
+        run: |
+          if [ "$BASE_REF" != "main" ] || [ "$HEAD_REF" != "master" ] || [ "$HEAD_REPO" != "$THIS_REPO" ]; then
+            echo "::error::Production PRs must be opened from master to main in this repository (got $HEAD_REPO:$HEAD_REF -> $BASE_REF)."
+            exit 1
+          fi
+  quality:
+    name: Production
+    needs: verify-source
+    uses: ./.github/workflows/_quality.yml
+    with:
+      run-smoke: true
+  release-readiness:
+    name: Release readiness
+    needs: verify-source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Version and changelog files
+        run: |
+          semver='^[0-9]+\.[0-9]+\.[0-9]+$'
+          for f in package.json mobile/package.json; do
+            v="$(jq -r .version "$f")"
+            [[ "$v" =~ $semver ]] || { echo "::error::$f has invalid version '$v'"; exit 1; }
+          done
+          grep -q '^## \[Unreleased\]' CHANGELOG.md || { echo "::error::CHANGELOG.md has no [Unreleased] section"; exit 1; }
+          grep -q 'release-entries' CHANGELOG.md || { echo "::error::CHANGELOG.md is missing the release-entries marker"; exit 1; }
+      - name: Release preview (next version and notes)
+        env:
+          RELEASE_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          RELEASE_OUT_DIR: ${{ runner.temp }}/release-out
+        run: |
+          bash scripts/release.sh | tee release-preview.txt
+          {
+            echo "## Release preview"
+            if grep -q '^release=true' release-preview.txt; then
+              echo "Merging this PR will create **v$(cat "$RELEASE_OUT_DIR/version.txt")**."
+              echo
+              cat "$RELEASE_OUT_DIR/release-notes.md"
+            else
+              echo "No releasable commits (feat/fix/perf/security/deps) were found, so no release will be created."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,5 @@
+# Code owners are requested automatically for review.
+# The production (main) ruleset requires an approval from a code owner.
+# ASSUMPTION: the repository owner is VipulSharma143. Confirm or replace, and add each
+# authorized maintainer here (see docs/github/GITHUB_SETUP.md).
+* @VipulSharma143

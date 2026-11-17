@@ -1,0 +1,20 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo root: convenience scripts only. Dependencies live in mobile/.",
+  "scripts": {
+    "dev": "npm run dev --prefix mobile",
+    "start": "npm run start --prefix mobile",
+    "android": "npm run android --prefix mobile",
+    "ios": "npm run ios --prefix mobile",
+    "dev:api": "dotnet watch run --project backend",
+    "build:api": "dotnet build backend",
+    "typecheck": "npm run typecheck --prefix mobile",
+    "test": "npm run test --prefix mobile",
+    "build:android": "bash scripts/build-android-debug.sh",
+    "lint": "npm run lint --prefix mobile",
+    "format:check": "npm run format:check --prefix mobile",
+    "validate:config": "bash scripts/validate-config.sh"
+  }
+}

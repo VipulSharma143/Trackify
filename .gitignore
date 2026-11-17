@@ -1,0 +1,39 @@
+# Node
+node_modules/
+npm-debug.log*
+dist-web/
+# React Native / native build outputs
+mobile/android/build/
+mobile/android/app/build/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/ios/Pods/
+mobile/ios/build/
+*.apk
+*.aab
+*.ipa
+# .NET
+bin/
+obj/
+*.user
+.vs/
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+# Env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.jks
+*.keystore
+!debug.keystore
+secrets.json
+appsettings.Local.json
+# Generated artifacts
+coverage/
+*.log

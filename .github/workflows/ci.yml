@@ -1,0 +1,39 @@
+# Feature branch and PR validation.
+# Triggers: pushes to feature/bugfix/hotfix/refactor/docs branches, and pull requests targeting master.
+# Result: all mandatory checks (types, lint, format, tests, build, security, config, API smoke) must pass.
+# For pull requests GitHub checks out the PR merged into master, so this already validates the integrated result.
+name: CI
+
+on:
+  push:
+    branches: ['feature/**', 'bugfix/**', 'hotfix/**', 'refactor/**', 'docs/**']
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    name: PR title
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR title must follow Conventional Commits (it becomes the squash commit message)
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          re='^(feat|fix|perf|security|deps|docs|refactor|test|build|ci|chore|style|revert)(\([a-z0-9._-]+\))?!?: .+'
+          if [[ ! "$TITLE" =~ $re ]]; then
+            echo "::error::PR title must look like 'feat(scope): description'. Allowed types: feat, fix, perf, security, deps, docs, refactor, test, build, ci, chore, style, revert."
+            exit 1
+          fi
+  quality:
+    name: CI
+    uses: ./.github/workflows/_quality.yml
+    with:
+      run-smoke: true

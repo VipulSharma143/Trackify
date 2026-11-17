@@ -1,0 +1,135 @@
+# Reusable quality gate shared by ci.yml, master-checks.yml, production-checks.yml and deploy-production.yml.
+# Not triggered directly. Keeps every stage identical so a check that passes in one place means the same everywhere.
+name: Quality gate
+
+on:
+  workflow_call:
+    inputs:
+      run-smoke:
+        description: Run the API smoke tests against a PostgreSQL service container
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    name: Mobile
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - name: Install dependencies from the lockfile
+        run: npm ci --prefix mobile
+      - name: Lockfile must not change
+        run: git diff --exit-code -- mobile/package-lock.json
+      - name: TypeScript type check
+        run: npm run typecheck --prefix mobile
+      - name: ESLint
+        run: npm run lint --prefix mobile
+      - name: Prettier check
+        run: npm run format:check --prefix mobile
+      - name: Unit tests
+        run: npm test --prefix mobile -- --ci
+      - name: Production web build
+        run: npm run build:web --prefix mobile
+      - name: Dependency vulnerability check (high or critical fail)
+        run: npm audit --prefix mobile --audit-level=high
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore
+        run: dotnet restore backend
+      - name: Build (Release)
+        run: dotnet build backend --no-restore --configuration Release
+      - name: Vulnerable NuGet packages
+        run: |
+          dotnet list backend/backend.csproj package --vulnerable --include-transitive 2>&1 | tee vulnerable.txt
+          if grep -q "has the following vulnerable packages" vulnerable.txt; then
+            echo "::error::Vulnerable NuGet packages found (see log)."; exit 1
+          fi
+      - name: EF Core migrations (validated only when migrations exist)
+        if: ${{ hashFiles('backend/Migrations/**') != '' }}
+        run: |
+          dotnet tool install --global dotnet-ef --version "10.*"
+          dotnet ef migrations has-pending-model-changes --project backend --no-build --configuration Release
+          dotnet ef migrations script --idempotent --project backend --no-build --configuration Release --output migrations.sql
+          echo "Migration script generated: $(wc -l < migrations.sql) lines (not executed)."
+      - name: Note when no migrations exist
+        if: ${{ hashFiles('backend/Migrations/**') == '' }}
+        run: echo "No EF Core migrations exist yet; nothing to validate."
+
+  config:
+    name: Config
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate committed configuration and environment variables
+        run: bash scripts/validate-config.sh
+
+  api-smoke:
+    name: API smoke
+    if: ${{ inputs.run-smoke }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: my_app_dev
+          POSTGRES_HOST_AUTH_METHOD: trust # throwaway CI-only database, no password needed
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build backend --configuration Release
+      - name: Start API with PostgreSQL available
+        run: |
+          export ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://127.0.0.1:5000
+          export Database__Host=localhost Database__Port=5432 Database__Database=my_app_dev Database__Username=postgres
+          nohup dotnet backend/bin/Release/net10.0/MyApp.Api.dll > api-up.log 2>&1 &
+          for i in $(seq 1 60); do curl -s -o /dev/null http://127.0.0.1:5000/api/health && break; sleep 1; done
+      - name: Smoke test (database up)
+        run: bash scripts/api-smoke-test.sh http://127.0.0.1:5000 up
+      - name: Start second API instance with PostgreSQL unreachable
+        run: |
+          export ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://127.0.0.1:5001
+          export Database__Host=localhost Database__Port=5999 Database__Database=my_app_dev Database__Username=postgres
+          nohup dotnet backend/bin/Release/net10.0/MyApp.Api.dll > api-down.log 2>&1 &
+          for i in $(seq 1 60); do curl -s -o /dev/null http://127.0.0.1:5001/api/health && break; sleep 1; done
+      - name: Smoke test (database down, API must stay healthy)
+        run: bash scripts/api-smoke-test.sh http://127.0.0.1:5001 down
+      - name: Show API logs on failure
+        if: ${{ failure() }}
+        run: tail -n 100 api-up.log api-down.log || true

@@ -1,0 +1,25 @@
+# Integration validation of the shared development branch.
+# Trigger: every push to master (that is, every merged PR) and manual runs.
+# Purpose: validate the integrated code as a whole after merging, not just the individual feature branch.
+# Note: pull requests targeting master are already validated against the merged result by ci.yml,
+# so this workflow does not run again on PR updates (avoids duplicate runs).
+name: Master integration checks
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: master-integration
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: Master integration
+    uses: ./.github/workflows/_quality.yml
+    with:
+      run-smoke: true

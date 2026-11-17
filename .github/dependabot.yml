@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /mobile
+    target-branch: master
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    labels: [dependencies]
+    open-pull-requests-limit: 5
+  - package-ecosystem: nuget
+    directory: /backend
+    target-branch: master
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    labels: [dependencies]
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: master
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    labels: [dependencies]
