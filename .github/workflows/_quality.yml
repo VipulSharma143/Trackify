@@ -118,7 +118,7 @@ jobs:
         run: |
           export ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://127.0.0.1:5000
           export Database__Host=localhost Database__Port=5432 Database__Database=my_app_dev Database__Username=postgres
-          nohup dotnet backend/bin/Release/net10.0/MyApp.Api.dll > api-up.log 2>&1 &
+          nohup dotnet backend/bin/Release/net10.0/Trackify.Api.dll > api-up.log 2>&1 &
           for i in $(seq 1 60); do curl -s -o /dev/null http://127.0.0.1:5000/api/health && break; sleep 1; done
       - name: Smoke test (database up)
         run: bash scripts/api-smoke-test.sh http://127.0.0.1:5000 up
@@ -126,7 +126,7 @@ jobs:
         run: |
           export ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://127.0.0.1:5001
           export Database__Host=localhost Database__Port=5999 Database__Database=my_app_dev Database__Username=postgres
-          nohup dotnet backend/bin/Release/net10.0/MyApp.Api.dll > api-down.log 2>&1 &
+          nohup dotnet backend/bin/Release/net10.0/Trackify.Api.dll > api-down.log 2>&1 &
           for i in $(seq 1 60); do curl -s -o /dev/null http://127.0.0.1:5001/api/health && break; sleep 1; done
       - name: Smoke test (database down, API must stay healthy)
         run: bash scripts/api-smoke-test.sh http://127.0.0.1:5001 down

@@ -6,9 +6,7 @@ Only the latest release (the newest `vMAJOR.MINOR.PATCH` tag on `main`) receives
 ## Reporting a vulnerability
 **Do not open a public issue or pull request for a security problem.**
 
-Report it privately using GitHub's "Report a vulnerability" button on the repository's **Security** tab (private vulnerability reporting). The repository owner must enable it under Settings > Code security. If it is not enabled, contact the repository owner directly.
-
-> **Owner action required:** an official security contact has not been supplied, so none is listed here. Add one (mailbox or confirmed GitHub channel) and remove this note before publishing.
+Report it privately by email to Vipul Sharma (repository owner): **vipulxharma@gmail.com**. You can also use GitHub's "Report a vulnerability" button on the repository's **Security** tab once private vulnerability reporting is enabled (Settings > Code security).
 
 Please include: what is affected, steps to reproduce, the impact you expect, and any suggested fix. Do not include real credentials or personal data.
 

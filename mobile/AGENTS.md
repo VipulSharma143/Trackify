@@ -9,6 +9,7 @@ Read the root `AGENTS.md` first. These rules add to it.
 - Styling uses `src/theme` tokens; no fixed sizes that break narrow screens.
 - API host comes from `src/constants/config.ts` and `src/platform/apiHost*.ts`. No secrets in app source.
 - No new dependency without need and an explanation. No Redux/Zustand/TanStack Query/UI kits.
+- Native Android code is **Java** (`android/app/src/main/java/.../MainActivity.java`, `MainApplication.java`). Do not add Kotlin source files. Note: React Native itself and the Gradle tooling still use Kotlin internally; that cannot be removed.
 - Do not create empty folders or empty files.
 - Native projects (`android/`, `ios/`) are committed; keep manual edits minimal and documented in `docs/development/NATIVE_DEVELOPMENT.md`.
 - Verify with `npm run typecheck` and `npm test`.

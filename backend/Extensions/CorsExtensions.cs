@@ -1,6 +1,6 @@
-using MyApp.Api.Configuration;
+using Trackify.Api.Configuration;
 
-namespace MyApp.Api.Extensions;
+namespace Trackify.Api.Extensions;
 
 public static class CorsExtensions
 {

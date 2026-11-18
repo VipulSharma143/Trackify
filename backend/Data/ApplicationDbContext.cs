@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace MyApp.Api.Data;
+namespace Trackify.Api.Data;
 
 /// <summary>
 /// EF Core context. No business entities exist yet; add DbSet properties only when a feature requires them.

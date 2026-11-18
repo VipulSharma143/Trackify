@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using MyApp.Api.DTOs.Responses;
-using MyApp.Api.Services.Interfaces;
+using Trackify.Api.DTOs.Responses;
+using Trackify.Api.Services.Interfaces;
 
-namespace MyApp.Api.Controllers;
+namespace Trackify.Api.Controllers;
 
 [ApiController]
 [Route("api/system")]

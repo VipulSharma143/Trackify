@@ -1,6 +1,6 @@
-using MyApp.Api.DTOs.Responses;
+using Trackify.Api.DTOs.Responses;
 
-namespace MyApp.Api.Services.Interfaces;
+namespace Trackify.Api.Services.Interfaces;
 
 public interface IHealthService
 {

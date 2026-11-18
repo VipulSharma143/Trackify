@@ -3,6 +3,8 @@
 `mobile/android` and `mobile/ios` are standard React Native community-CLI projects and are committed. Edit them directly when native changes are needed. Identifiers: Android `com.example.myapp`, iOS bundle id `com.example.myapp` (placeholders: change before any release). Android is locked to portrait; the iPhone is portrait only.
 
 ## Android
+The Android app shell is written in **Java** (`MainActivity.java`, `MainApplication.java`). The React Native template is Kotlin by default, so these two files were converted by hand; React Native's own Kotlin-only APIs (default arguments, `object` singletons) are called from Java, which is why `MainApplication.java` passes every argument of `getDefaultReactHost`. If a React Native upgrade changes those APIs, the Java files may need a matching update. The Gradle build still applies the Kotlin Gradle plugin because React Native requires it internally.
+
 - Install Android Studio; in SDK Manager install an SDK Platform and Build-Tools; use JDK 17+.
 - Set `ANDROID_HOME` (Linux `~/Android/Sdk`, macOS `~/Library/Android/sdk`) and add `platform-tools` to `PATH`.
 - Emulator: Device Manager -> Create Device -> start it, then `npm run android`.
@@ -22,3 +24,6 @@ Metro and Vite pick `Name.android.ts`, `Name.ios.ts` or `Name.web.ts` before `Na
 - "SDK location not found": set `ANDROID_HOME`.
 - Stale cache: `npx react-native start --reset-cache`; Android clean: `cd mobile/android && ./gradlew clean`.
 - Pods problems: `cd mobile/ios && pod install --repo-update`.
+
+## Naming note
+The app is called **Trackify** (display name on Android, iOS and the browser). The internal native project and JavaScript module name is still `MyApp` (`mobile/ios/MyApp*`, `app.json` `name`, `AppRegistry` in `mobile/web/main.tsx`), and the Android application id is the placeholder `com.example.myapp`. Renaming those requires renaming the Xcode project and changing the application id, which should be done together with choosing the real production identifiers before any store release.

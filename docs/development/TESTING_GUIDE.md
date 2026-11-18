@@ -17,3 +17,12 @@ Run `docs/database/sql/002_verify_database.sql` with `psql`.
 
 ## Android / iOS
 Emulator/simulator launch and APK build per `NATIVE_DEVELOPMENT.md` and `ANDROID_APK_BUILD.md`.
+
+## Quick commands and current coverage
+```
+npm test                                   # Jest (3 tests)
+npm run typecheck && npm run lint --prefix mobile && npm run format:check --prefix mobile
+dotnet build backend
+bash scripts/api-smoke-test.sh http://localhost:5000 up   # with the API and PostgreSQL running
+```
+Current coverage is minimal: no backend unit tests, no authentication tests (no authentication exists), no end-to-end tests.

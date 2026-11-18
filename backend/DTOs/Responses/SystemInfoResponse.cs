@@ -1,4 +1,4 @@
-namespace MyApp.Api.DTOs.Responses;
+namespace Trackify.Api.DTOs.Responses;
 
 /// <summary>Response of GET /api/system/info.</summary>
 public sealed record SystemInfoResponse(

@@ -1,5 +1,5 @@
-using MyApp.Api.Extensions;
-using MyApp.Api.Middleware;
+using Trackify.Api.Extensions;
+using Trackify.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

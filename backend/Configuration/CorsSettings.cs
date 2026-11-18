@@ -1,4 +1,4 @@
-namespace MyApp.Api.Configuration;
+namespace Trackify.Api.Configuration;
 
 public sealed class CorsSettings
 {

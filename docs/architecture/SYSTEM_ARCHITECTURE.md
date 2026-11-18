@@ -24,3 +24,8 @@ Only the foundation is in scope: three health/system endpoints and a sample UI. 
 
 ## Principles
 Modular monolith, DTO contracts, async I/O, no secrets in Git, explicit CORS origins.
+
+## Technology stack
+React Native (community CLI, no Expo) + TypeScript · React Native Web + Vite · ASP.NET Core Web API (C#, .NET 10) · PostgreSQL, EF Core, Npgsql · REST/JSON · GitHub Actions.
+
+Installed mobile versions (from `mobile/package.json`): React Native 0.88.1, React 19.3.0, TypeScript ^6.0.3, react-native-web ^0.21.4, Vite ^8.3.8, React Navigation ^7, Jest ^29.

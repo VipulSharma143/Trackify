@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyApp.Api.Middleware;
+namespace Trackify.Api.Middleware;
 
 /// <summary>Converts unhandled exceptions into a generic 500 response. Internal details are logged, never returned.</summary>
 public sealed class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)

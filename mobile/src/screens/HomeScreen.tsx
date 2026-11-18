@@ -57,7 +57,10 @@ export function HomeScreen({ navigation }: Props): React.JSX.Element {
   return (
     <ScreenContainer>
       <Image source={logo} style={styles.logo} accessibilityLabel="App logo" />
-      <AppHeader title="My App" subtitle="Welcome to the project foundation." />
+      <AppHeader
+        title="Trackify"
+        subtitle="Welcome to the project foundation."
+      />
       {stack.map(item => (
         <AppCard key={item.title} title={item.title}>
           <Text style={styles.body}>{item.text}</Text>

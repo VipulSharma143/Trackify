@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MyApp.Api.Configuration;
-using MyApp.Api.Data;
+using Trackify.Api.Configuration;
+using Trackify.Api.Data;
 
-namespace MyApp.Api.Extensions;
+namespace Trackify.Api.Extensions;
 
 public static class DatabaseExtensions
 {

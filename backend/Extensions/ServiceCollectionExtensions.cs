@@ -1,7 +1,7 @@
-using MyApp.Api.Services.Implementations;
-using MyApp.Api.Services.Interfaces;
+using Trackify.Api.Services.Implementations;
+using Trackify.Api.Services.Interfaces;
 
-namespace MyApp.Api.Extensions;
+namespace Trackify.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {

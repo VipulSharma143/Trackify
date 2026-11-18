@@ -1,6 +1,6 @@
 using Npgsql;
 
-namespace MyApp.Api.Configuration;
+namespace Trackify.Api.Configuration;
 
 /// <summary>
 /// PostgreSQL connection settings. Host/Port/Database live in appsettings.json.

@@ -37,4 +37,6 @@ No production release has been created yet. The first release will be `v1.0.0`.
 - Mobile `lint`, `format`, `format:check` scripts; ESLint ignores generated folders.
 
 ### Changed
+- Android app shell converted from Kotlin to Java (`MainActivity.java`, `MainApplication.java`); not compiled in the authoring environment.
 - Mobile source formatted with Prettier.
+- README shortened to a compact overview with links; detailed content moved to `docs/` (getting started, scripts, CI/CD, project status) and a documentation index added.

@@ -36,7 +36,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at **[REPORTING CONTACT NOT YET CONFIGURED: the repository owner must supply an official contact method here before this Code of Conduct is published]**. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at Vipul Sharma (repository owner) at **vipulxharma@gmail.com**. All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the reporter of any incident.
 
@@ -84,8 +84,4 @@ For answers to common questions about this code of conduct, see the FAQ at [http
 
 ## Attribution and license
 
-This Code of Conduct is the Contributor Covenant, version 2.1, used under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/). Contributor Covenant is copyright by its authors; the text above has been changed only by filling in the reporting contact placeholder.
-
-## Maintainer note (owner action required)
-
-The reporting contact above is a placeholder. No contact person or email address has been supplied, and none has been invented. The repository owner must replace it with an official contact (for example a dedicated mailbox or GitHub private reporting channel) and remove this note.
+This Code of Conduct is the Contributor Covenant, version 2.1, used under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/). Contributor Covenant is copyright by its authors; the only change is that the reporting contact has been filled in.

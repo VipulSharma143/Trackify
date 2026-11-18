@@ -73,4 +73,4 @@ CI/CD
 Release
 - [ ] First release creates `v1.0.0` and a GitHub Release pointing at the merge commit
 - [ ] Re-running "Release" creates no duplicate tag
-- [ ] With `DEPLOY_ENABLED=true` and the placeholder deploy step, the pipeline fails and no release is created
+- [ ] With `DEPLOY_ENABLED=true` and the not-yet-implemented deploy step, the pipeline fails and no release is created

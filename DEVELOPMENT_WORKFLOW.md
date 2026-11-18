@@ -51,4 +51,8 @@ Branch from `master` (`hotfix/<name>`), fix, merge to `master` through the norma
 | PR to `master` | PR title, CI / Mobile, CI / Backend, CI / Config, CI / API smoke |
 | PR `master` -> `main` | Source branch, Production / Mobile, Backend, Config, API smoke, Release readiness |
 
-Details of each workflow: [README](README.md#automated-cicd-pipeline).
+Details of each workflow: [docs/development/CI_CD.md](docs/development/CI_CD.md).
+
+## Code review policy
+- PRs to `master`: CI must pass; a review is encouraged but not required.
+- PRs to `main`: one approval from a code owner/maintainer, all conversations resolved, all production checks passing, merge restricted to maintainers by the ruleset.

@@ -1,18 +1,18 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
-using MyApp.Api.Data;
-using MyApp.Api.DTOs.Responses;
-using MyApp.Api.Services.Interfaces;
+using Trackify.Api.Data;
+using Trackify.Api.DTOs.Responses;
+using Trackify.Api.Services.Interfaces;
 
-namespace MyApp.Api.Services.Implementations;
+namespace Trackify.Api.Services.Implementations;
 
 public sealed class HealthService(
     ApplicationDbContext dbContext,
     IHostEnvironment environment,
     ILogger<HealthService> logger) : IHealthService
 {
-    private const string ApplicationName = "my-app-api";
+    private const string ApplicationName = "trackify-api";
     private const string ApiVersion = "v1";
 
     private static readonly string Version =

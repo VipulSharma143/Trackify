@@ -11,7 +11,7 @@
 Setting `DEPLOY_ENABLED=true` before the deploy step is implemented makes the pipeline **fail on purpose**, so a deployment can never be reported as successful when nothing was deployed.
 
 ## To enable deployment (owner tasks)
-1. Decide and document the hosting for the API, the web build, PostgreSQL and HTTPS (see the TBD list in [docs/deployment/DEPLOYMENT_GUIDE.md](docs/deployment/DEPLOYMENT_GUIDE.md)).
+1. Decide and document the hosting for the API, the web build, PostgreSQL and HTTPS (see the open decisions in [docs/deployment/DEPLOYMENT_GUIDE.md](docs/deployment/DEPLOYMENT_GUIDE.md)).
 2. Create the GitHub Environment `production` (Settings > Environments) with **required reviewers** for manual approval, and restrict it to the `main` branch.
 3. Add the needed secrets to that environment (names depend on the hosting choice; never commit them).
 4. Replace the `Deploy` step in `deploy-production.yml` with the real deployment commands, using the artifact `production-<sha>`.

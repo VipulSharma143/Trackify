@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>MyApp.Api</RootNamespace>
-    <AssemblyName>MyApp.Api</AssemblyName>
+    <RootNamespace>Trackify.Api</RootNamespace>
+    <AssemblyName>Trackify.Api</AssemblyName>
     <UserSecretsId>7d2c1f0e-5b1a-4c58-9a57-3f4a6b9d2e11</UserSecretsId>
   </PropertyGroup>
 

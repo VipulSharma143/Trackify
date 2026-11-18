@@ -1,4 +1,4 @@
-namespace MyApp.Api.DTOs.Responses;
+namespace Trackify.Api.DTOs.Responses;
 
 public static class HealthStatuses
 {

@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "trackify",
   "version": "0.1.0",
   "private": true,
   "description": "Monorepo root: convenience scripts only. Dependencies live in mobile/.",
